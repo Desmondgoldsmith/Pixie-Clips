@@ -1,30 +1,40 @@
-"use-client";
+"use client";
 import { db } from "@/config/db";
-import { usersTable } from "@/config/schema";
+import { usersTable, InsertUser } from "@/config/schema";
 import { useUser } from "@clerk/nextjs";
 import { eq } from "drizzle-orm";
 import { useEffect } from "react";
 
-export const Provider = ({ children }: any) => {
+export const Provider = ({ children }: { children: React.ReactNode }) => {
   const { user } = useUser();
 
   useEffect(() => {
-    user && isNewUser;
+    if (user) {
+      isNewUser();
+    }
   }, [user]);
 
   const isNewUser = async () => {
+    if (!user?.primaryEmailAddress?.emailAddress) {
+      console.error("User email is undefined");
+      return;
+    }
+
     const userResult = await db
       .select()
       .from(usersTable)
-      .where(eq(usersTable.email, user?.primaryEmailAddress?.emailAddress));
+      .where(eq(usersTable.email, user.primaryEmailAddress.emailAddress));
 
-    if (!userResult[0]) {
-      await db.insert(usersTable).Values({
-        name: user?.fullName,
-        email: user?.primaryEmailAddress?.emailAddress,
-        imageUrl: user?.imageUrl,
-      });
+    if (userResult.length === 0) {
+      const newUser: InsertUser = {
+        name: user.fullName ?? "",
+        email: user.primaryEmailAddress.emailAddress,
+        imageURL: user.imageUrl ?? undefined,
+      };
+
+      await db.insert(usersTable).values(newUser);
     }
   };
-  return <div>{children}</div>;
+
+  return <>{children}</>;
 };
