@@ -33,16 +33,16 @@ const CreateNewVideo = () => {
 
   const handleSubmit = () => {
     console.log({ topic, style, duration, voice });
-    // Handle form submission
+    // form submission
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary-light to-secondary-light p-8">
+    <div className="min-h-screen p-8">
       <Card className="max-w-4xl mx-auto overflow-hidden shadow-2xl">
         <CardContent className="p-0">
           <div className="bg-primary text-white p-6">
             <h1 className="text-3xl font-bold mb-2">Create Your AI Video</h1>
-            <p className="text-primary-light">Bring your ideas to life with our cutting-edge AI technology</p>
+            <p className="text-secondary-light">Bring your ideas to life with our cutting-edge AI technology</p>
           </div>
           <div className="p-6">
             <div className="mb-8">
