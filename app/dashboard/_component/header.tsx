@@ -20,7 +20,7 @@ const Header = () => {
             </Link>
           </div>
           <div className="flex items-center space-x-3">
-            <Button className="bg-secondary-light text-primary-dark">
+            <Button className="bg-secondary-light text-primary-dark hover:bg-primary-light  hover:text-secondary-light">
               Dashboard
             </Button>
             <UserButton />

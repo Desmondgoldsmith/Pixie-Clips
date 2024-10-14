@@ -7,8 +7,8 @@ import {usePathname} from 'next/navigation'
 
 const sidebarItems = [
   { icon: LayoutDashboard, label: "Dashboard", href: "/dashboard" },
-  { icon: PlusCircle, label: "New", href: "/new" },
-  { icon: User, label: "Account", href: "/account" },
+  { icon: PlusCircle, label: "New", href: "/dashboard/new" },
+  { icon: User, label: "Account", href: "/dashboard/account" },
 ];
 
 
@@ -16,7 +16,7 @@ const Sidebar = () => {
   const path = usePathname()
 
   return (
-    <aside className="bg-primary text-white w-64 min-h-screen hidden md:block shadow-md">
+    <aside className="bg-primary pt-12 text-white w-64 min-h-screen hidden md:block shadow-md">
       <nav className="p-4">
         <ul className="space-y-2">
           {sidebarItems.map((item) => (
