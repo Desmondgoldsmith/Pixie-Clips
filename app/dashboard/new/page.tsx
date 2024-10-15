@@ -57,14 +57,22 @@ const CreateNewVideo = () => {
 
   // get script
   const getScript = async () => {
-    const prompt = `write a script to generate a ${duration} video on the topic : ${topic} along with AI image prompt in a realistic format. For each scene , give me a result in JSON format with imagePrompt and contentText as field`;
-    const result = await axios
-      .post("api/get_video_script", {
-        prompt: prompt,
-      })
-      .then((response) => {
-        console.log(response.data);
-      });
+    const prompt = `write a script to generate a ${duration} video on the topic : ${topic} along with AI image prompt in a ${style} format. For each scene , give me a result in JSON format with imagePrompt and contentText as field`;
+    try {
+      const response = await axios.post("/api/get-video-script", { prompt });
+      console.log(response.data);
+    } catch (error) {
+      console.error(
+        "Error fetching script:",
+        // @ts-ignore
+        error.response?.data || error.message
+      );
+
+      console.error(
+        "API route error:",
+        JSON.stringify(error, Object.getOwnPropertyNames(error))
+      );
+    }
   };
 
   return (

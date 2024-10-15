@@ -1,20 +1,32 @@
 import { chatSession } from "@/config/model";
 import { NextResponse } from "next/server";
 
-export const POST = async ({ request }: { request: any }) => {
+export async function POST(request: Request) {
   try {
-    // getting users prompt
     const { prompt } = await request.json();
-    console.log("Prompt", prompt);
+    console.log("Received prompt:", prompt);
 
-    //    get the results
     const results = await chatSession.sendMessage(prompt);
-    console.log(results.response.text());
+    const responseText = results.response.text();
+    console.log("API response:", responseText);
 
-    return NextResponse.json({
-      results: JSON.parse(results.response.text()),
-    });
+    let parsedResults;
+    try {
+      parsedResults = JSON.parse(responseText);
+    } catch (parseError) {
+      console.error("Failed to parse API response:", parseError);
+      return NextResponse.json(
+        { error: "Failed to parse API response" },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({ results: parsedResults });
   } catch (error) {
-    NextResponse.json(`An error occurred: ${error}`);
+    console.error("API route error:", error);
+    return NextResponse.json(
+      { error: "An error occurred while processing your request" },
+      { status: 500 }
+    );
   }
-};
+}
