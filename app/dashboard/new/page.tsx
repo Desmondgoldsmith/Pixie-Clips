@@ -1,26 +1,41 @@
-'use client'
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ChevronRight, Wand2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import TopicSelect from './_components/topicSelect';
-import StyleSelect from './_components/styleSelect';
-import DurationSelect from './_components/durationSelect';
-import VoiceSelect from './_components/voiceSelect';
-
+"use client";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { ChevronRight, Wand2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import TopicSelect from "./_components/topicSelect";
+import StyleSelect from "./_components/styleSelect";
+import DurationSelect from "./_components/durationSelect";
+import VoiceSelect from "./_components/voiceSelect";
+import axios from "axios";
 const CreateNewVideo = () => {
-  const [topic, setTopic] = useState('');
-  const [style, setStyle] = useState('');
+  const [topic, setTopic] = useState("");
+  const [style, setStyle] = useState("");
   const [duration, setDuration] = useState(30);
-  const [voice, setVoice] = useState('');
+  const [voice, setVoice] = useState("");
   const [currentStep, setCurrentStep] = useState(0);
+  const [submit, setSubmit] = useState([]);
 
   const steps = [
-    { title: 'Choose Topic', component: <TopicSelect onTopicChange={setTopic} /> },
-    { title: 'Select Style', component: <StyleSelect selectedStyle={style} onStyleChange={setStyle} /> },
-    { title: 'Set Duration', component: <DurationSelect duration={duration} onDurationChange={setDuration} /> },
-    { title: 'Pick Voice', component: <VoiceSelect selectedVoice={voice} onVoiceChange={setVoice} /> },
+    {
+      title: "Choose Topic",
+      component: <TopicSelect onTopicChange={setTopic} />,
+    },
+    {
+      title: "Select Style",
+      component: <StyleSelect selectedStyle={style} onStyleChange={setStyle} />,
+    },
+    {
+      title: "Set Duration",
+      component: (
+        <DurationSelect duration={duration} onDurationChange={setDuration} />
+      ),
+    },
+    {
+      title: "Pick Voice",
+      component: <VoiceSelect selectedVoice={voice} onVoiceChange={setVoice} />,
+    },
   ];
 
   const handleNextStep = () => {
@@ -36,13 +51,39 @@ const CreateNewVideo = () => {
     // form submission
   };
 
+  const onSubmitHandler = () => {
+    getScript();
+  };
+
+  // get script
+  const getScript = async () => {
+    const prompt = `write a script to generate a ${duration} video on the topic : ${topic} along with AI image prompt in a ${style} format. For each scene , give me a result in JSON format with imagePrompt and contentText as field`;
+    try {
+      const response = await axios.post("/api/get-video-script", { prompt });
+      console.log(response.data);
+    } catch (error) {
+      console.error(
+        "Error fetching script:",
+        // @ts-ignore
+        error.response?.data || error.message
+      );
+
+      console.error(
+        "API route error:",
+        JSON.stringify(error, Object.getOwnPropertyNames(error))
+      );
+    }
+  };
+
   return (
     <div className="min-h-screen p-8">
       <Card className="max-w-4xl mx-auto overflow-hidden shadow-2xl">
         <CardContent className="p-0">
           <div className="bg-primary text-white p-6">
             <h1 className="text-3xl font-bold mb-2">Create Your AI Video</h1>
-            <p className="text-secondary-light">Bring your ideas to life with our cutting-edge AI technology</p>
+            <p className="text-secondary-light">
+              Bring your ideas to life with our cutting-edge AI technology
+            </p>
           </div>
           <div className="p-6">
             <div className="mb-8">
@@ -51,15 +92,21 @@ const CreateNewVideo = () => {
                   <div
                     key={index}
                     className={`flex items-center ${
-                      index <= currentStep ? 'text-primary' : 'text-gray-400'
+                      index <= currentStep ? "text-primary" : "text-gray-400"
                     }`}
                   >
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${
-                      index <= currentStep ? 'border-primary bg-primary text-white' : 'border-gray-300'
-                    }`}>
+                    <div
+                      className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${
+                        index <= currentStep
+                          ? "border-primary bg-primary text-white"
+                          : "border-gray-300"
+                      }`}
+                    >
                       {index + 1}
                     </div>
-                    <span className="ml-2 text-sm font-medium">{step.title}</span>
+                    <span className="ml-2 text-sm font-medium">
+                      {step.title}
+                    </span>
                     {index < steps.length - 1 && (
                       <ChevronRight className="mx-2" />
                     )}
@@ -82,9 +129,9 @@ const CreateNewVideo = () => {
                 className="bg-primary hover:bg-primary-light text-white px-6 py-2 rounded-full flex items-center"
               >
                 {currentStep === steps.length - 1 ? (
-                  <>
+                  <span onClick={onSubmitHandler}>
                     Generate Video <Wand2 className="ml-2" />
-                  </>
+                  </span>
                 ) : (
                   <>
                     Next <ChevronRight className="ml-2" />

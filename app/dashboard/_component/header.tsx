@@ -13,8 +13,8 @@ const Header = () => {
               <Image
                 src="/images/pixie-clips.png"
                 alt="pixie clips"
-                width={80}
-                height={80}
+                width={100}
+                height={100}
                 className="rounded-full"
               />
             </Link>
