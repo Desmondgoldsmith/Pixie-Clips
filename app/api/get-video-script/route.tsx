@@ -14,5 +14,7 @@ export const Post = async ({ request }: { request: any }) => {
     return NextResponse.json({
       results: JSON.parse(results.response.text()),
     });
-  } catch (e) {}
+  } catch (error) {
+    NextResponse.json(`An error occurred: ${error}`);
+  }
 };
