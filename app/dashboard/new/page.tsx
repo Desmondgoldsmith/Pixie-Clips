@@ -8,7 +8,7 @@ import TopicSelect from "./_components/topicSelect";
 import StyleSelect from "./_components/styleSelect";
 import DurationSelect from "./_components/durationSelect";
 import VoiceSelect from "./_components/voiceSelect";
-
+import axios from "axios";
 const CreateNewVideo = () => {
   const [topic, setTopic] = useState("");
   const [style, setStyle] = useState("");
@@ -49,6 +49,18 @@ const CreateNewVideo = () => {
   const handleSubmit = () => {
     console.log({ topic, style, duration, voice });
     // form submission
+  };
+
+  // get script
+  const getScript = async () => {
+    const prompt = `write a script to generate a ${duration} video on the topic : ${topic} along with AI image prompt in a realistic format. For each scene , give me a result in JSON format with imagePrompt and contentText as field`;
+    const result = await axios
+      .post("api/get_video_script", {
+        prompt: prompt,
+      })
+      .then((response) => {
+        console.log(response.data);
+      });
   };
 
   return (

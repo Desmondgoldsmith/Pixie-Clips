@@ -1,7 +1,7 @@
 import { chatSession } from "@/config/model";
 import { NextResponse } from "next/server";
 
-export const Post = async ({ request }: { request: any }) => {
+export const POST = async ({ request }: { request: any }) => {
   try {
     // getting users prompt
     const { prompt } = await request.json();
