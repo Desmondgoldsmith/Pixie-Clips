@@ -51,6 +51,10 @@ const CreateNewVideo = () => {
     // form submission
   };
 
+  const onSubmitHandler = () => {
+    getScript();
+  };
+
   // get script
   const getScript = async () => {
     const prompt = `write a script to generate a ${duration} video on the topic : ${topic} along with AI image prompt in a realistic format. For each scene , give me a result in JSON format with imagePrompt and contentText as field`;
@@ -117,9 +121,9 @@ const CreateNewVideo = () => {
                 className="bg-primary hover:bg-primary-light text-white px-6 py-2 rounded-full flex items-center"
               >
                 {currentStep === steps.length - 1 ? (
-                  <>
+                  <span onClick={onSubmitHandler}>
                     Generate Video <Wand2 className="ml-2" />
-                  </>
+                  </span>
                 ) : (
                   <>
                     Next <ChevronRight className="ml-2" />
