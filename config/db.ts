@@ -3,5 +3,6 @@ import { neon } from "@neondatabase/serverless";
 import { config } from "dotenv";
 
 config({ path: ".env.local" });
-const sql = neon(process.env.DRIZZLE_NEON_DATABASE_URL!);
+const sql = neon('postgresql://pixieClipsDB_owner:PfV5ga9GqZDs@ep-falling-meadow-a5tnb744.us-east-2.aws.neon.tech/pixieClipsDB?sslmode=require');
+// const sql = neon(process.env.DRIZZLE_NEON_DATABASE_URL!);
 export const db = drizzle(sql);

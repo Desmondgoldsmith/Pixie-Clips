@@ -1,26 +1,41 @@
-'use client'
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ChevronRight, Wand2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import TopicSelect from './_components/topicSelect';
-import StyleSelect from './_components/styleSelect';
-import DurationSelect from './_components/durationSelect';
-import VoiceSelect from './_components/voiceSelect';
+"use client";
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { ChevronRight, Wand2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import TopicSelect from "./_components/topicSelect";
+import StyleSelect from "./_components/styleSelect";
+import DurationSelect from "./_components/durationSelect";
+import VoiceSelect from "./_components/voiceSelect";
 
 const CreateNewVideo = () => {
-  const [topic, setTopic] = useState('');
-  const [style, setStyle] = useState('');
+  const [topic, setTopic] = useState("");
+  const [style, setStyle] = useState("");
   const [duration, setDuration] = useState(30);
-  const [voice, setVoice] = useState('');
+  const [voice, setVoice] = useState("");
   const [currentStep, setCurrentStep] = useState(0);
+  const [submit, setSubmit] = useState([]);
 
   const steps = [
-    { title: 'Choose Topic', component: <TopicSelect onTopicChange={setTopic} /> },
-    { title: 'Select Style', component: <StyleSelect selectedStyle={style} onStyleChange={setStyle} /> },
-    { title: 'Set Duration', component: <DurationSelect duration={duration} onDurationChange={setDuration} /> },
-    { title: 'Pick Voice', component: <VoiceSelect selectedVoice={voice} onVoiceChange={setVoice} /> },
+    {
+      title: "Choose Topic",
+      component: <TopicSelect onTopicChange={setTopic} />,
+    },
+    {
+      title: "Select Style",
+      component: <StyleSelect selectedStyle={style} onStyleChange={setStyle} />,
+    },
+    {
+      title: "Set Duration",
+      component: (
+        <DurationSelect duration={duration} onDurationChange={setDuration} />
+      ),
+    },
+    {
+      title: "Pick Voice",
+      component: <VoiceSelect selectedVoice={voice} onVoiceChange={setVoice} />,
+    },
   ];
 
   const handleNextStep = () => {
@@ -42,7 +57,9 @@ const CreateNewVideo = () => {
         <CardContent className="p-0">
           <div className="bg-primary text-white p-6">
             <h1 className="text-3xl font-bold mb-2">Create Your AI Video</h1>
-            <p className="text-secondary-light">Bring your ideas to life with our cutting-edge AI technology</p>
+            <p className="text-secondary-light">
+              Bring your ideas to life with our cutting-edge AI technology
+            </p>
           </div>
           <div className="p-6">
             <div className="mb-8">
@@ -51,15 +68,21 @@ const CreateNewVideo = () => {
                   <div
                     key={index}
                     className={`flex items-center ${
-                      index <= currentStep ? 'text-primary' : 'text-gray-400'
+                      index <= currentStep ? "text-primary" : "text-gray-400"
                     }`}
                   >
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${
-                      index <= currentStep ? 'border-primary bg-primary text-white' : 'border-gray-300'
-                    }`}>
+                    <div
+                      className={`w-8 h-8 rounded-full flex items-center justify-center border-2 ${
+                        index <= currentStep
+                          ? "border-primary bg-primary text-white"
+                          : "border-gray-300"
+                      }`}
+                    >
                       {index + 1}
                     </div>
-                    <span className="ml-2 text-sm font-medium">{step.title}</span>
+                    <span className="ml-2 text-sm font-medium">
+                      {step.title}
+                    </span>
                     {index < steps.length - 1 && (
                       <ChevronRight className="mx-2" />
                     )}
