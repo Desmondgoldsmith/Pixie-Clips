@@ -1,14 +1,28 @@
-import React from 'react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import React from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+interface SelectVoiceProp {
+  selectedVoice: string;
+  onVoiceChange: (voices: string) => void;
+}
 
 const voices = [
-  { name: 'Emma', accent: 'British', gender: 'Female' },
-  { name: 'James', accent: 'American', gender: 'Male' },
-  { name: 'Yuki', accent: 'Japanese', gender: 'Female' },
-  { name: 'Hans', accent: 'German', gender: 'Male' },
+  { name: "Emma", accent: "British", gender: "Female" },
+  { name: "James", accent: "American", gender: "Male" },
+  { name: "Yuki", accent: "Japanese", gender: "Female" },
+  { name: "Hans", accent: "German", gender: "Male" },
 ];
 
-const VoiceSelect = ({ selectedVoice, onVoiceChange }) => {
+const VoiceSelect: React.FC<SelectVoiceProp> = ({
+  selectedVoice,
+  onVoiceChange,
+}) => {
   return (
     <Select value={selectedVoice} onValueChange={onVoiceChange}>
       <SelectTrigger className="w-full">
