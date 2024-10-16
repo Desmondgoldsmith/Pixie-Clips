@@ -26,6 +26,7 @@ const CreateNewVideo = () => {
   const [currentStep, setCurrentStep] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [isNextDisabled, setIsNextDisabled] = useState(true);
+  const [script, setScript] = useState([]);
 
   const steps = [
     {
@@ -92,8 +93,13 @@ const CreateNewVideo = () => {
   const getScript = async () => {
     const prompt = `write a script to generate a ${duration} video on the topic : ${topic} , along with AI image prompt in a ${style} format. For each scene , give me a result in JSON format with imagePrompt and contentText as field`;
     try {
-      const response = await axios.post("/api/get-video-script", { prompt });
-      console.log(response.data);
+      const response = await axios
+        .post("/api/get-video-script", { prompt })
+        .then((response) => {
+          console.log(response.data.result);
+          setScript(response.data.script);
+        });
+
       // Handle successful response here
     } catch (error: any) {
       console.error(

@@ -1,7 +1,12 @@
-import React from 'react';
-import { Slider } from '@/components/ui/slider';
+import React from "react";
+import { Slider } from "@/components/ui/slider";
 
-const DurationSelect = ({ duration, onDurationChange }) => {
+interface DurationProps {
+  duration: number;
+  onDurationChange: (value: number) => void;
+}
+
+const DurationSelect = ({ duration, onDurationChange }: DurationProps) => {
   return (
     <div className="space-y-2">
       <p>Video Duration: {duration} seconds</p>

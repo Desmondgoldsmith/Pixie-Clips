@@ -2,7 +2,7 @@ import React from "react";
 
 interface styleSelectProp {
   selectedStyle: string;
-  onStyleChange: (style: string) => void;
+  onStyleChange: (videoStyles: string) => void;
 }
 
 const videoStyles = [
