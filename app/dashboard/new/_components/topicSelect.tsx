@@ -1,21 +1,33 @@
-import React, { useState } from 'react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Textarea } from '@/components/ui/textarea';
+import React, { useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
-const topics = ['Nature', 'Technology', 'History', 'Science', 'Art', 'Custom'];
+const topics = ["Nature", "Technology", "History", "Science", "Art", "Custom"];
 
-const TopicSelect = ({ onTopicChange }) => {
-  const [selectedTopic, setSelectedTopic] = useState('');
-  const [customTopic, setCustomTopic] = useState('');
+interface TopicSelectProps {
+  onTopicChange: (topic: string) => void;
+}
 
-  const handleTopicChange = (value) => {
+const TopicSelect: React.FC<TopicSelectProps> = ({ onTopicChange }) => {
+  const [selectedTopic, setSelectedTopic] = useState<string>("");
+  const [customTopic, setCustomTopic] = useState<string>("");
+
+  const handleTopicChange = (value: string) => {
     setSelectedTopic(value);
-    onTopicChange(value === 'Custom' ? customTopic : value);
+    onTopicChange(value === "Custom" ? customTopic : value);
   };
 
-  const handleCustomTopicChange = (e) => {
+  const handleCustomTopicChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setCustomTopic(e.target.value);
-    if (selectedTopic === 'Custom') {
+    if (selectedTopic === "Custom") {
       onTopicChange(e.target.value);
     }
   };
@@ -28,11 +40,13 @@ const TopicSelect = ({ onTopicChange }) => {
         </SelectTrigger>
         <SelectContent>
           {topics.map((topic) => (
-            <SelectItem key={topic} value={topic}>{topic}</SelectItem>
+            <SelectItem key={topic} value={topic}>
+              {topic}
+            </SelectItem>
           ))}
         </SelectContent>
       </Select>
-      {selectedTopic === 'Custom' && (
+      {selectedTopic === "Custom" && (
         <Textarea
           placeholder="Describe your custom topic"
           value={customTopic}
