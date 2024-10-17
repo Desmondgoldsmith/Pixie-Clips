@@ -98,7 +98,15 @@ const CreateNewVideo = () => {
         .then((response) => {
           console.log(response.data.result);
           setScript(response.data.script);
+          getAudio(response.data.script);
         });
+
+      const getAudio = async (scriptData: any) => {
+        let script = "";
+        scriptData.forEach((data: any) => {
+          script = script + data.ContentText + "";
+        });
+      };
 
       // Handle successful response here
     } catch (error: any) {
